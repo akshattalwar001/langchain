@@ -14,11 +14,10 @@ api_key = os.getenv("GOOGLE_API_KEY")
 model = ChatGoogleGenerativeAI(model="gemini-1.5-flash", api_key=api_key)
 parser=JsonOutputParser()
 template = PromptTemplate(
-    template="Give me the name, age and city of a fictional person \n {format_instruction}",
+    template="Give me 5 facts about {topic} \n {format_instruction}",
     input_variables=[],
     partial_variables={"format_instruction":parser.get_format_instructions()}
 )
 chain = template | model | parser
-result=chain.invoke({})
+result=chain.invoke({"topic":"black hole"})
 print(result)
-print(type(result))

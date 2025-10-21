@@ -16,6 +16,7 @@ class Person(BaseModel):
 
 parser = PydanticOutputParser(pydantic_object=Person)
 
+
 template = PromptTemplate(
     template="Generate the name , age and city of the fictional {place} person \n {format_instructions}",
     input_variables=["place"],

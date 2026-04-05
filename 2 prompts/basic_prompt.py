@@ -1,16 +1,19 @@
-import google.generativeai as genai
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
-import streamlit as st
 import os
+
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash')
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
+    google_api_key=os.getenv("GOOGLE_API_KEY")
+)
 
-st.header('Research Tool')
+while True:
+    user_input = input("Enter your prompt: ")
 
-user_input = st.text_input('Enter your prompt')
+    if user_input.lower() == "exit":
+        break
 
-if st.button('Submit'):
-    result = model.generate_content(user_input)
-    st.write(result.text)
+    result = llm.invoke(user_input)
+    print("AI:", result.content)

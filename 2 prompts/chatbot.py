@@ -1,20 +1,24 @@
-import google.generativeai as genai
-from dotenv import load_dotenv
-import streamlit as st
 import os
+from dotenv import load_dotenv
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.messages import HumanMessage, AIMessage
+
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
-st.header('Gemini Chatbot')
 chat_history = []
+
 while True:
-    user_input = input('You:')
-    chat_history.append(user_input)
-    if user_input == 'exit':
+    user_input = input('You: ')
+    if user_input.lower() == 'exit':
         break
-    result = model.generate_content(chat_history)
-    chat_history.append(result.text)
-    print("AI:",result.text)
+        
+    chat_history.append(HumanMessage(content=user_input))
+    
+    result = model.invoke(chat_history)
+    chat_history.append(AIMessage(content=result.content))
+    
+    print("AI:", result.content)
+
 print(chat_history)

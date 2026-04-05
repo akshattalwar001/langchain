@@ -1,8 +1,6 @@
-venv/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.DS_Store
-.env
+venv
+.venv
 .idea/
+combined_workspace_files.txt
+.idea/
+.env
